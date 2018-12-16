@@ -76,7 +76,7 @@ def train_model(directory, embedding_size, hidden_size, num_layers,
                 dropout, bidirectional, min_count,
                 batch_size, learning_rate, optimizer, clipping_value,
                 n_epochs, early_stopping, subsample, run_id, model_type,
-                random_state):
+                random_state, ngrams):
     # main function for training the model
     training_parameters = locals()
     training_parameters['model_type'] = 'encoder_classifier'

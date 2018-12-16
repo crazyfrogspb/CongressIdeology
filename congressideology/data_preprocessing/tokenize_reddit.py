@@ -44,6 +44,10 @@ def tokenize_reddit(comments_directory, output_directory,
     df_train, df_val = train_test_split(
         df_train_val, test_size=val_size, random_state=random_state, shuffle=True)
 
+    df_train = df_train.loc[df_train.tokens.str.len() > 0]
+    df_val = df_val.loc[df_val.tokens.str.len() > 0]
+    df_test = df_test.loc[df_test.tokens.str.len() > 0]
+
     df_train.to_csv(osp.join(output_directory, 'reddit_train.csv'), index=False)
     df_val.to_csv(osp.join(output_directory, 'reddit_val.csv'), index=False)
     df_test.to_csv(osp.join(output_directory, 'reddit_test.csv'), index=False)

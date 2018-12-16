@@ -3,6 +3,7 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
 from congressideology.config import reddit_config
 
 
@@ -48,7 +49,7 @@ class Attention(nn.Module):
         self.scale = 1. / math.sqrt(query_dim)
 
     def forward(self, query, keys, values):
-        query = query.unsqueeze(1)
+        query = query.transpose(0, 1)
         keys = keys.transpose(1, 2)
         energy = torch.bmm(query, keys)
         energy = F.softmax(energy.mul_(self.scale), dim=2)
@@ -58,11 +59,11 @@ class Attention(nn.Module):
 
 
 class Classifier(nn.Module):
-    def __init__(self, encoder, attention, num_classes):
+    def __init__(self, encoder, attention, hidden_size, num_classes):
         super().__init__()
         self.encoder = encoder
         self.attention = attention
-        self.decoder = nn.Linear(self.encoder.hidden_size, num_classes)
+        self.decoder = nn.Linear(hidden_size, num_classes)
 
     def forward(self, x):
         input_seq = x['input']
@@ -82,4 +83,4 @@ def initialize_model(input_size, embedding_size, hidden_size, num_layers,
     attention_size = 2 * hidden_size if bidirectional else hidden_size
     attention = Attention(attention_size, attention_size, attention_size)
 
-    return Classifier(encoder, attention, num_classes).to(reddit_config.device)
+    return Classifier(encoder, attention, attention_size, num_classes).to(reddit_config.device)

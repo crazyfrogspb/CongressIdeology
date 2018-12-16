@@ -110,6 +110,15 @@ train_reddit_models_test:
 	#																																	 --n_epochs 5 --embedding_size 50 && \
 	python congressideology/models/train_reddit_model.py data/interim/ --model_type encoder
 
+train_reddit_models:
+	export MLFLOW_EXPERIMENT_ID=0 && \
+	python congressideology/models/train_reddit_model.py data/interim/ --model_type fasttext \
+																																		 --n_epochs 5 && \
+	python congressideology/models/train_reddit_model.py data/interim/ --model_type fasttext \
+																																		 --n_epochs 3 && \
+  python congressideology/models/train_reddit_model.py data/interim/ --model_type fasttext \
+																																		 --n_epochs 7
+
 #################################################################################
 # Self Documenting Commands                                                     #
 #################################################################################

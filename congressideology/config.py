@@ -22,7 +22,7 @@ class RedditConfig():
     max_length = 100
     decay_patience = 5
     decay_factor = 0.1
-    logging_freq = 500
+    logging_freq = 1000
 
 
 config = Config()

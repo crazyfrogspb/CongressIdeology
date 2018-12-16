@@ -4,15 +4,15 @@ import random
 
 import mlflow
 import numpy as np
-from redditscore.models import fasttext_mod
 from sklearn import metrics
 
 from congressideology.config import config
 from congressideology.models.reddit.load_data import load_comments
 from congressideology.models.reddit.training_utils import train_model
+from redditscore.models import fasttext_mod
 
 
-def train_fasttext(directory, n_epochs, embedding_size, learning_rate, random_state, subsample):
+def train_fasttext(directory, n_epochs, ngrams, embedding_size, learning_rate, random_state, subsample):
     training_parameters = locals()
     training_parameters['model_type'] = 'fasttext'
 
@@ -27,7 +27,7 @@ def train_fasttext(directory, n_epochs, embedding_size, learning_rate, random_st
 
     ft_model = fasttext_mod.FastTextModel(
         epoch=n_epochs, dim=embedding_size, lr=learning_rate,
-        thread=16, random_state=random_state)
+        wordNgrams=ngrams, thread=6, random_state=random_state)
 
     ft_model.fit(tokens_train, subreddits_train)
 
@@ -67,13 +67,14 @@ if __name__ == '__main__':
     parser.add_argument('--early_stopping', type=int, default=3)
     parser.add_argument('--subsample', type=float, default=1.0)
     parser.add_argument('--run_id', type=str, default=None)
-    parser.add_argument('--random_state', type=int, default=25)
+    parser.add_argument('--random_state', type=int, default=24)
+    parser.add_argument('--ngrams', type=int, default=1)
 
     args = parser.parse_args()
     args_dict = vars(args)
 
     if args_dict['model_type'] == 'fasttext':
-        train_fasttext(args_dict['directory'], args_dict['n_epochs'],
+        train_fasttext(args_dict['directory'], args_dict['n_epochs'], args_dict['wordNgrams'],
                        args_dict['embedding_size'], args_dict['learning_rate'],
                        args_dict['random_state'], args_dict['subsample'])
     else:
