@@ -1,7 +1,7 @@
 adjustText==0.7.3
 backcall==0.1.0
 beautifulsoup4==4.6.3
-bleach==3.0.2
+bleach==3.1.1
 boto3==1.9.66
 botocore==1.12.66
 cachetools==3.0.0
