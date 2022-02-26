@@ -58,7 +58,7 @@ MarkupSafe==1.1.0
 matplotlib==3.0.2
 mistune==0.8.4
 mleap==0.8.1
-mlflow==0.8.0
+mlflow==1.23.1
 monotonic==1.5
 msgpack==0.5.6
 msgpack-numpy==0.4.3.2
